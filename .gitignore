@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.env
+
+# FastAPI / venv
+venv/
+.env/
+
+# Node / Angular
+node_modules/
+dist/
+
+# Logs
+*.log
