@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+
+<div class="container page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Talleres Disponibles</h1>
+      <p class="page-sub">Red de talleres asociados listos para asistirte</p>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner spinner-dark"></div>
+    <span>Cargando talleres...</span>
+  </div>
+
+  <div class="talleres-grid" *ngIf="!loading">
+    <div class="taller-card" *ngFor="let t of talleres">
+      <div class="taller-top">
+        <div class="taller-icon">
+          <span class="material-icons-outlined icon-lg">handyman</span>
+        </div>
+        <div class="taller-info">
+          <div class="taller-name">{{ t.nombre }}</div>
+          <span class="badge" [ngClass]="t.activo ? 'badge-green' : 'badge-gray'">
+            {{ t.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+      </div>
+      <div class="taller-details">
+        <div class="taller-detail-row">
+          <span class="material-icons-outlined icon-sm detail-icon">location_on</span>
+          <span>{{ t.direccion }}</span>
+        </div>
+        <div class="taller-detail-row">
+          <span class="material-icons-outlined icon-sm detail-icon">phone</span>
+          <span>{{ t.telefono }}</span>
+        </div>
+        <div class="taller-detail-row">
+          <span class="material-icons-outlined icon-sm detail-icon">mail_outline</span>
+          <span>{{ t.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-card" *ngIf="talleres.length === 0">
+      <div style="color:#d0d0d0;margin-bottom:16px">
+        <span class="material-icons-outlined icon-xl">handyman</span>
+      </div>
+      <p style="font-size:16px;font-weight:700;margin-bottom:8px">Sin talleres registrados</p>
+      <p class="text-muted text-sm">No hay talleres disponibles por el momento</p>
+    </div>
+  </div>
+</div>

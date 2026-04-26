@@ -1,0 +1,122 @@
+<app-navbar></app-navbar>
+
+<div class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>¿Necesitás asistencia<br>en la vía?</h1>
+        <p>Reportá tu emergencia y conectamos con el taller más cercano en segundos.</p>
+        <a routerLink="/emergencias/nueva" class="btn-hero">
+          <span class="material-icons-outlined icon-sm">sos</span>
+          Reportar emergencia
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-num">{{ emergencias.length }}</div>
+          <div class="stat-label">Emergencias totales</div>
+        </div>
+        <div class="stat-box stat-red">
+          <div class="stat-num">{{ pendientes }}</div>
+          <div class="stat-label">Pendientes</div>
+        </div>
+        <div class="stat-box stat-green">
+          <div class="stat-num">{{ atendidas }}</div>
+          <div class="stat-label">Atendidas</div>
+        </div>
+        <div class="stat-box stat-dark">
+          <div class="stat-num">{{ vehiculos.length }}</div>
+          <div class="stat-label">Mis vehículos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container page">
+
+  <div class="quick-actions">
+    <a routerLink="/emergencias/nueva" class="action-card action-red">
+      <div class="action-icon">
+        <span class="material-icons-outlined">sos</span>
+      </div>
+      <div class="action-text">
+        <div class="action-title">Nueva emergencia</div>
+        <div class="action-sub">Solicitar asistencia ahora</div>
+      </div>
+    </a>
+    <a routerLink="/vehiculos/nuevo" class="action-card">
+      <div class="action-icon">
+        <span class="material-icons-outlined">directions_car</span>
+      </div>
+      <div class="action-text">
+        <div class="action-title">Agregar vehículo</div>
+        <div class="action-sub">Registrar un nuevo vehículo</div>
+      </div>
+    </a>
+    <a routerLink="/talleres" class="action-card">
+      <div class="action-icon">
+        <span class="material-icons-outlined">handyman</span>
+      </div>
+      <div class="action-text">
+        <div class="action-title">Ver talleres</div>
+        <div class="action-sub">Talleres disponibles</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="dash-grid">
+    <div class="dash-section">
+      <div class="section-header">
+        <h2 class="section-title">Emergencias recientes</h2>
+        <a routerLink="/emergencias" class="link-more">Ver todas →</a>
+      </div>
+      <div class="card">
+        <div *ngFor="let e of emergencias.slice(0,5); let last = last" class="list-item"
+          [style.border-bottom]="last ? 'none' : '1px solid #f0f0f0'">
+          <div class="list-item-left">
+            <div class="list-dot" [ngClass]="'dot-' + e.estado"></div>
+            <span class="list-desc">{{ e.descripcion }}</span>
+          </div>
+          <span class="badge" [ngClass]="badgeClass(e.estado)">{{ e.estado }}</span>
+        </div>
+        <div *ngIf="emergencias.length === 0" class="empty-state">
+          <div class="empty-icon">
+            <span class="material-icons-outlined icon-xl">assignment</span>
+          </div>
+          <p>Sin emergencias registradas</p>
+          <a routerLink="/emergencias/nueva" class="btn-primary btn-sm">Reportar ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <div class="section-header">
+        <h2 class="section-title">Mis vehículos</h2>
+        <a routerLink="/vehiculos" class="link-more">Ver todos →</a>
+      </div>
+      <div class="card">
+        <div *ngFor="let v of vehiculos.slice(0,4); let last = last" class="list-item"
+          [style.border-bottom]="last ? 'none' : '1px solid #f0f0f0'">
+          <div class="list-item-left">
+            <div class="vehicle-icon">
+              <span class="material-icons-outlined icon-md">directions_car</span>
+            </div>
+            <div>
+              <div class="fw-600">{{ v.marca }} {{ v.modelo }}</div>
+              <div class="text-muted text-sm">{{ v.anio }}</div>
+            </div>
+          </div>
+          <span class="badge badge-gray">{{ v.placa }}</span>
+        </div>
+        <div *ngIf="vehiculos.length === 0" class="empty-state">
+          <div class="empty-icon">
+            <span class="material-icons-outlined icon-xl">directions_car</span>
+          </div>
+          <p>Sin vehículos registrados</p>
+          <a routerLink="/vehiculos/nuevo" class="btn-primary btn-sm">Agregar vehículo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a routerLink="/dashboard" class="navbar-brand">
+      <span class="material-icons-outlined brand-icon">emergency</span>
+      Emergencias
+    </a>
+
+    <div class="navbar-links">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+      <a routerLink="/emergencias" routerLinkActive="active">Emergencias</a>
+      <a routerLink="/vehiculos" routerLinkActive="active">Mis vehículos</a>
+      <a routerLink="/talleres" routerLinkActive="active">Talleres</a>
+    </div>
+
+    <button class="btn-logout" (click)="auth.logout()">Cerrar sesión</button>
+  </div>
+</nav>

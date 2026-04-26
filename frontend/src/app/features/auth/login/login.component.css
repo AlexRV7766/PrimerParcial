@@ -1,0 +1,104 @@
+:host { display: block; }
+
+.auth-page { display: flex; min-height: 100vh; }
+
+.auth-left {
+  flex: 0 0 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: #fff;
+}
+
+.auth-box { width: 100%; max-width: 380px; }
+
+.auth-logo {
+  width: 52px; height: 52px;
+  background: var(--red);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  color: #fff;
+  font-size: 26px;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  margin-bottom: 8px;
+}
+
+.auth-sub {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+form { margin-bottom: 24px; }
+
+button[type=submit] {
+  margin-top: 8px;
+  padding: 16px;
+  font-size: 16px;
+}
+button[type=submit]:disabled { opacity: .6; cursor: not-allowed; }
+
+.auth-footer {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+.auth-footer a { color: #000; font-weight: 600; margin-left: 4px; }
+.auth-footer a:hover { text-decoration: underline; }
+
+.auth-right {
+  flex: 1;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.auth-hero { color: #fff; max-width: 420px; }
+
+.auth-hero h2 {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+
+.auth-hero p {
+  color: #999;
+  font-size: 18px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.auth-features { display: flex; flex-direction: column; gap: 12px; }
+
+.feature-item {
+  background: #111;
+  border: 1px solid #222;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .auth-page { flex-direction: column; }
+  .auth-right { display: none; }
+  .auth-left { flex: 1; padding: 32px 24px; }
+}

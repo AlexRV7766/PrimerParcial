@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<div class="container page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mis Vehículos</h1>
+      <p class="page-sub">Administrá tus vehículos registrados</p>
+    </div>
+    <a routerLink="/vehiculos/nuevo" class="btn-primary">
+      <span class="material-icons-outlined icon-sm">add</span>
+      Agregar vehículo
+    </a>
+  </div>
+
+  <div class="alert alert-info" *ngIf="mensaje">
+    {{ mensaje }}
+    <button class="close-btn" (click)="mensaje=''">
+      <span class="material-icons-outlined icon-sm">close</span>
+    </button>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner spinner-dark"></div>
+    <span>Cargando vehículos...</span>
+  </div>
+
+  <div class="vehicles-grid" *ngIf="!loading">
+    <div class="vehicle-card" *ngFor="let v of vehiculos">
+      <div class="vehicle-top">
+        <div class="vehicle-emoji">
+          <span class="material-icons-outlined icon-lg">directions_car</span>
+        </div>
+        <div class="vehicle-info">
+          <div class="vehicle-name">{{ v.marca }} {{ v.modelo }}</div>
+          <div class="vehicle-year text-muted text-sm">{{ v.anio }}</div>
+        </div>
+        <span class="badge badge-gray">{{ v.placa }}</span>
+      </div>
+      <div class="vehicle-actions">
+        <a [routerLink]="['/vehiculos', v.id, 'editar']" class="btn-outline btn-sm">Editar</a>
+        <button class="btn-delete btn-sm" (click)="eliminar(v.id)">Eliminar</button>
+      </div>
+    </div>
+
+    <div class="empty-card" *ngIf="vehiculos.length === 0">
+      <div style="color:#d0d0d0;margin-bottom:16px">
+        <span class="material-icons-outlined icon-xl">directions_car</span>
+      </div>
+      <p style="font-size:16px;font-weight:700;margin-bottom:8px">Sin vehículos registrados</p>
+      <p class="text-muted text-sm" style="margin-bottom:24px">Agregá tu primer vehículo para poder reportar emergencias</p>
+      <a routerLink="/vehiculos/nuevo" class="btn-primary">Agregar vehículo</a>
+    </div>
+  </div>
+</div>

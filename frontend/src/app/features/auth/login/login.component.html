@@ -1,0 +1,62 @@
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <span class="material-icons-outlined">emergency</span>
+      </div>
+      <h1 class="auth-title">Bienvenido de nuevo</h1>
+      <p class="auth-sub">Inicia sesión para acceder al sistema de emergencias viales</p>
+
+      <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" formControlName="email"
+            placeholder="correo@ejemplo.com" autocomplete="email">
+          <div class="field-error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+            Ingresa un email válido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" formControlName="password"
+            placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn-primary btn-full"
+          [class.btn-loading]="loading" [disabled]="loading || form.invalid">
+          <span class="spinner" *ngIf="loading"></span>
+          {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        ¿No tienes cuenta?
+        <a routerLink="/register">Regístrate aquí</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-hero">
+      <h2>Asistencia vial cuando más lo necesitás</h2>
+      <p>Conectamos conductores con talleres cercanos en segundos.</p>
+      <div class="auth-features">
+        <div class="feature-item">
+          <span class="material-icons-outlined icon-sm">bolt</span>
+          Respuesta rápida
+        </div>
+        <div class="feature-item">
+          <span class="material-icons-outlined icon-sm">location_on</span>
+          Geolocalización
+        </div>
+        <div class="feature-item">
+          <span class="material-icons-outlined icon-sm">build</span>
+          Talleres verificados
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

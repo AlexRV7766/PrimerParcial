@@ -1,0 +1,72 @@
+<app-navbar></app-navbar>
+
+<div class="container page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mis Emergencias</h1>
+      <p class="page-sub">Historial de todas tus solicitudes de asistencia</p>
+    </div>
+    <a routerLink="/emergencias/nueva" class="btn-danger">
+      <span class="material-icons-outlined icon-sm">sos</span>
+      Nueva emergencia
+    </a>
+  </div>
+
+  <div class="alert alert-info" *ngIf="mensaje">
+    {{ mensaje }}
+    <button class="close-btn" (click)="mensaje=''">
+      <span class="material-icons-outlined icon-sm">close</span>
+    </button>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner spinner-dark"></div>
+    <span>Cargando emergencias...</span>
+  </div>
+
+  <div class="card" *ngIf="!loading">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Coordenadas</th>
+            <th style="text-align:right">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of emergencias">
+            <td class="text-muted">#{{ e.id }}</td>
+            <td class="desc-cell">{{ e.descripcion }}</td>
+            <td>
+              <span class="badge" [ngClass]="badgeClass(e.estado)">{{ e.estado }}</span>
+            </td>
+            <td class="text-muted text-sm">
+              {{ e.latitud | number:'1.3-3' }}, {{ e.longitud | number:'1.3-3' }}
+            </td>
+            <td style="text-align:right">
+              <button *ngIf="e.estado === 'pendiente'" class="btn-cancel" (click)="cancelar(e.id)">
+                Cancelar
+              </button>
+              <span *ngIf="e.estado !== 'pendiente'" class="text-muted">—</span>
+            </td>
+          </tr>
+          <tr *ngIf="emergencias.length === 0">
+            <td colspan="5">
+              <div class="empty-state">
+                <div style="color:#d0d0d0;margin-bottom:12px">
+                  <span class="material-icons-outlined icon-xl">assignment</span>
+                </div>
+                <p style="font-size:15px;font-weight:600;margin-bottom:8px">Sin emergencias</p>
+                <p class="text-muted text-sm" style="margin-bottom:20px">No has reportado ninguna emergencia todavía</p>
+                <a routerLink="/emergencias/nueva" class="btn-danger btn-sm">Reportar ahora</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

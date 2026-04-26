@@ -1,0 +1,82 @@
+.page { padding: 40px 0 60px; }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--gray-500);
+  font-size: 15px;
+}
+
+.talleres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.taller-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.taller-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border-color: var(--gray-300);
+}
+
+.taller-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.taller-icon {
+  width: 52px; height: 52px;
+  background: var(--gray-100);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.taller-info { flex: 1; }
+
+.taller-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+
+.taller-details { display: flex; flex-direction: column; gap: 8px; }
+
+.taller-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+.detail-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+
+.empty-card {
+  grid-column: 1 / -1;
+  background: var(--white);
+  border: 1px dashed var(--gray-300);
+  border-radius: var(--radius);
+  padding: 48px 24px;
+  text-align: center;
+}

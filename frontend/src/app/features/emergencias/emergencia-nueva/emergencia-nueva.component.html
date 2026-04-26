@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+
+<div class="container page">
+  <div class="form-page">
+    <div class="form-header">
+      <h1 class="page-title">Reportar emergencia</h1>
+      <p class="page-sub">Completá el formulario y te conectamos con un taller en segundos</p>
+    </div>
+
+    <div class="alert alert-warning" *ngIf="vehiculos.length === 0">
+      No tenés vehículos registrados.
+      <a routerLink="/vehiculos/nuevo" style="font-weight:700;color:#92400e">Agrega uno primero →</a>
+    </div>
+
+    <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-card">
+      <div class="form-group">
+        <label class="form-label">Vehículo</label>
+        <select class="form-select" formControlName="vehiculo_id">
+          <option [ngValue]="null" disabled>Seleccioná tu vehículo</option>
+          <option *ngFor="let v of vehiculos" [ngValue]="v.id">
+            {{ v.marca }} {{ v.modelo }} — {{ v.placa }}
+          </option>
+        </select>
+        <div class="field-error" *ngIf="form.get('vehiculo_id')?.touched && form.get('vehiculo_id')?.invalid">
+          Seleccioná un vehículo
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descripción del problema</label>
+        <textarea class="form-control" formControlName="descripcion" rows="4"
+          placeholder="Ej: Llanta pinchada en la avenida principal, no puedo avanzar..."></textarea>
+        <div class="field-error" *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.errors?.['minlength']">
+          Mínimo 10 caracteres
+        </div>
+      </div>
+
+      <div class="coords-row">
+        <div class="form-group" style="flex:1">
+          <label class="form-label">Latitud</label>
+          <input type="number" class="form-control" formControlName="latitud" step="any" placeholder="-17.7833">
+        </div>
+        <div class="form-group" style="flex:1">
+          <label class="form-label">Longitud</label>
+          <input type="number" class="form-control" formControlName="longitud" step="any" placeholder="-63.1821">
+        </div>
+      </div>
+
+      <button type="button" class="btn-location" (click)="obtenerUbicacion()" [disabled]="ubicando">
+        <span class="spinner spinner-dark" *ngIf="ubicando"></span>
+        <span class="material-icons-outlined icon-sm" *ngIf="!ubicando">location_on</span>
+        {{ ubicando ? 'Obteniendo ubicación...' : 'Usar mi ubicación actual' }}
+      </button>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-danger" [disabled]="loading || form.invalid">
+          <span class="spinner" *ngIf="loading"></span>
+          <span class="material-icons-outlined icon-sm" *ngIf="!loading">sos</span>
+          {{ loading ? 'Enviando...' : 'Reportar emergencia' }}
+        </button>
+        <a routerLink="/emergencias" class="btn-outline">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

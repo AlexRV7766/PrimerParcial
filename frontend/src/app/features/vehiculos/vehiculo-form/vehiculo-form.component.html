@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+
+<div class="container page">
+  <div class="form-page">
+    <div class="form-header">
+      <h1 class="page-title">{{ isEdit ? 'Editar vehículo' : 'Nuevo vehículo' }}</h1>
+      <p class="page-sub">{{ isEdit ? 'Actualizá los datos de tu vehículo' : 'Registrá un nuevo vehículo en tu cuenta' }}</p>
+    </div>
+
+    <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-card">
+      <div class="form-group">
+        <label class="form-label">Marca</label>
+        <input type="text" class="form-control" formControlName="marca" placeholder="Toyota, Honda, Ford...">
+        <div class="field-error" *ngIf="form.get('marca')?.touched && form.get('marca')?.invalid">Campo requerido</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Modelo</label>
+        <input type="text" class="form-control" formControlName="modelo" placeholder="Corolla, Civic, Ranger...">
+        <div class="field-error" *ngIf="form.get('modelo')?.touched && form.get('modelo')?.invalid">Campo requerido</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:1">
+          <label class="form-label">Placa</label>
+          <input type="text" class="form-control" formControlName="placa" placeholder="ABC-123" style="text-transform:uppercase">
+          <div class="field-error" *ngIf="form.get('placa')?.touched && form.get('placa')?.invalid">Campo requerido</div>
+        </div>
+        <div class="form-group" style="flex:1">
+          <label class="form-label">Año</label>
+          <input type="number" class="form-control" formControlName="anio" min="1900" max="2100">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="loading || form.invalid">
+          <span class="spinner" *ngIf="loading"></span>
+          <span class="material-icons-outlined icon-sm" *ngIf="!loading">save</span>
+          {{ loading ? 'Guardando...' : (isEdit ? 'Guardar cambios' : 'Agregar vehículo') }}
+        </button>
+        <a routerLink="/vehiculos" class="btn-outline">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

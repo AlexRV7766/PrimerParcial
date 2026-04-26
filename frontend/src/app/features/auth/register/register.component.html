@@ -1,0 +1,62 @@
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <span class="material-icons-outlined">emergency</span>
+      </div>
+      <h1 class="auth-title">Crear cuenta</h1>
+      <p class="auth-sub">Registrate para solicitar asistencia en emergencias viales</p>
+
+      <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" formControlName="nombre" placeholder="Juan Pérez">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" formControlName="email"
+            placeholder="correo@ejemplo.com" autocomplete="email">
+          <div class="field-error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+            Ingresa un email válido
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" formControlName="password"
+            placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+          <div class="field-error" *ngIf="form.get('password')?.touched && form.get('password')?.errors?.['minlength']">
+            Mínimo 6 caracteres
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono</label>
+          <input type="tel" class="form-control" formControlName="telefono" placeholder="+591 7XXXXXXX">
+        </div>
+
+        <button type="submit" class="btn-primary btn-full" [disabled]="loading || form.invalid">
+          <span class="spinner" *ngIf="loading"></span>
+          {{ loading ? 'Creando cuenta...' : 'Registrarse' }}
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login">Inicia sesión</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-hero">
+      <h2>Tu seguridad en la carretera, nuestra prioridad</h2>
+      <p>Más de 50 talleres verificados listos para ayudarte en Santa Cruz.</p>
+      <div class="auth-steps">
+        <div class="step"><span class="step-num">1</span><span>Reporta tu emergencia</span></div>
+        <div class="step"><span class="step-num">2</span><span>Conectamos con el taller más cercano</span></div>
+        <div class="step"><span class="step-num">3</span><span>Recibís asistencia en minutos</span></div>
+      </div>
+    </div>
+  </div>
+</div>
