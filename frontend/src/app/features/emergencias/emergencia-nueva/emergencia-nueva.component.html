@@ -13,6 +13,9 @@
     </div>
 
     <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+    <div class="alert alert-success" *ngIf="mensaje" style="background:#0d2e1a;color:#4cd97a;padding:12px;border-radius:8px;margin-bottom:16px;">
+      {{ mensaje }}
+    </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="form-card">
       <div class="form-group">
@@ -35,6 +38,12 @@
         <div class="field-error" *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.errors?.['minlength']">
           Mínimo 10 caracteres
         </div>
+      </div>
+
+      <!-- Evidencia (Imagen) -->
+      <div class="form-group">
+        <label class="form-label">Evidencia Fotográfica (Opcional)</label>
+        <input type="file" class="form-control" style="padding: 9px;" accept="image/*" (change)="onFileSelected($event)">
       </div>
 
       <div class="coords-row">
@@ -65,3 +74,4 @@
     </form>
   </div>
 </div>
+

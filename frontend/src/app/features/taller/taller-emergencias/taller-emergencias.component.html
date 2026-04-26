@@ -1,0 +1,146 @@
+<app-navbar />
+
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">
+      <span class="material-icons-outlined">local_fire_department</span>
+      Panel del Taller
+    </h1>
+    <p class="page-subtitle">Emergencias disponibles y tus asignaciones activas</p>
+  </div>
+
+  @if (mensaje) { <div class="alert alert-success">{{ mensaje }}</div> }
+  @if (error)   { <div class="alert alert-error">{{ error }}</div> }
+
+  <!-- ═══ EMERGENCIAS DISPONIBLES ═══ -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="material-icons-outlined">crisis_alert</span>
+      Emergencias disponibles
+    </h2>
+
+    @if (loading) {
+      <div class="loading">Cargando...</div>
+    } @else if (emergenciasDisponibles.length === 0) {
+      <div class="empty">No hay emergencias pendientes en este momento</div>
+    } @else {
+      <div class="cards-grid">
+        @for (e of emergenciasDisponibles; track e.id) {
+          <div class="card">
+            <div class="card-top">
+              <span class="badge" [class]="emergenciaClass(e.estado)">{{ e.estado }}</span>
+              <span class="card-id">#{{ e.id }}</span>
+            </div>
+            <p class="card-desc">{{ e.descripcion }}</p>
+            <div class="card-meta">
+              <span class="material-icons-outlined">location_on</span>
+              {{ e.latitud | number:'1.4-4' }}, {{ e.longitud | number:'1.4-4' }}
+            </div>
+            <div class="card-actions">
+              <a [routerLink]="['/emergencias', e.id]" class="btn btn-secondary">
+                <span class="material-icons-outlined">visibility</span> Ver detalle
+              </a>
+              
+              <!-- Ver si ya existe una asignacion para esta emergencia a este taller -->
+              @if (asignaciones.length > 0) {
+                @for (asig of asignaciones; track asig.id) {
+                  @if (asig.emergencia_id === e.id && asig.estado === 'asignado') {
+                    <button class="btn btn-green" (click)="abrirAceptar(e.id, asig.id)">
+                      <span class="material-icons-outlined">check_circle</span> Aceptar
+                    </button>
+                    <button class="btn btn-red" (click)="rechazar(asig)">
+                      <span class="material-icons-outlined">cancel</span> Rechazar
+                    </button>
+                  }
+                }
+              }
+
+              <!-- Si no hay asignación, permitimos tomarla (reclamar emergencia libre) -->
+              @if (!tieneAsignacion(e.id)) {
+                <button class="btn btn-green" (click)="abrirAceptar(e.id)">
+                  <span class="material-icons-outlined">front_hand</span> Tomar Emergencia
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- ═══ MIS ASIGNACIONES ═══ -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="material-icons-outlined">assignment</span>
+      Mis asignaciones
+    </h2>
+    @if (asignaciones.length === 0) {
+      <div class="empty">No tenés asignaciones aún</div>
+    } @else {
+      <div class="table-wrap">
+        <table class="asig-table">
+          <thead>
+            <tr>
+              <th>ID Asig.</th>
+              <th>Emergencia</th>
+              <th>Estado</th>
+              <th>Técnico asignado</th>
+              <th>Reasignar técnico</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (a of asignaciones; track a.id) {
+              <tr>
+                <td class="td-id">{{ a.id }}</td>
+                <td>Emergencia #{{ a.emergencia_id }}</td>
+                <td><span class="badge" [class]="estadoClass(a.estado)">{{ a.estado }}</span></td>
+                <td>
+                  @if (a.tecnico_id) {
+                    @for (t of tecnicos; track t.id) {
+                      @if (t.id === a.tecnico_id) { <span class="tecnico-name">{{ t.nombre }}</span> }
+                    }
+                  } @else { <span class="sin-tecnico">Sin asignar</span> }
+                </td>
+                <td>
+                  @if (a.estado === 'aceptado') {
+                    <select
+                      class="rol-select"
+                      (change)="reasignarTecnico(a, $any($event.target).value)"
+                      id="reasignar-{{ a.id }}"
+                    >
+                      <option value="">Seleccionar</option>
+                      @for (t of tecnicos; track t.id) {
+                        <option [value]="t.id" [selected]="t.id === a.tecnico_id">{{ t.nombre }}</option>
+                      }
+                    </select>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</div>
+
+<!-- Modal aceptar -->
+@if (emergenciaSeleccionadaId) {
+  <div class="modal-backdrop" (click)="cerrarModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3 class="modal-title">
+        {{ asignacionSeleccionadaId ? 'Aceptar' : 'Tomar' }} emergencia #{{ emergenciaSeleccionadaId }}
+      </h3>
+      <p class="modal-sub">Seleccioná un técnico para asignar a esta emergencia:</p>
+      <select class="rol-select full" [(ngModel)]="tecnicoSeleccionadoId" id="modal-tecnico-select">
+        @for (t of tecnicos; track t.id) {
+          <option [value]="t.id">{{ t.nombre }} — {{ t.telefono }}</option>
+        }
+      </select>
+      <div class="modal-actions">
+        <button class="btn btn-green" (click)="confirmarAceptar()" id="confirmar-aceptar">Confirmar</button>
+        <button class="btn btn-gray" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+}

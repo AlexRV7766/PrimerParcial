@@ -5,4 +5,7 @@ export interface TallerResponse {
   telefono: string;
   direccion: string;
   activo: boolean;
+  latitud?: number;
+  longitud?: number;
+  usuario_id?: number;
 }

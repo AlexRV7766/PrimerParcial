@@ -13,7 +13,8 @@ def autenticar_usuario(db: Session, email: str, password: str):
 
     token = create_access_token({
         "sub": str(usuario.id),
-        "email": usuario.email
+        "email": usuario.email,
+        "rol": usuario.rol
     })
 
-    return token
+    return token

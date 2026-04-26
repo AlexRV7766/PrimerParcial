@@ -42,3 +42,20 @@ async def subir_archivo(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/{evidencia_id}")
+def eliminar(
+    evidencia_id: int,
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user)
+):
+    evidencia = db.query(Evidencia).filter(Evidencia.id == evidencia_id).first()
+    if not evidencia:
+        raise HTTPException(status_code=404, detail="Evidencia no encontrada")
+    
+    # Podría requerirse borrar de Cloudinary si tuviéramos el public_id, 
+    # por ahora solo la borramos de la BD
+    db.delete(evidencia)
+    db.commit()
+    return {"mensaje": "Evidencia eliminada"}

@@ -7,11 +7,37 @@
 
     <div class="navbar-links">
       <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
-      <a routerLink="/emergencias" routerLinkActive="active">Emergencias</a>
-      <a routerLink="/vehiculos" routerLinkActive="active">Mis vehículos</a>
-      <a routerLink="/talleres" routerLinkActive="active">Talleres</a>
+
+      <!-- CLIENTE -->
+      @if (auth.rol() === 'cliente') {
+        <a routerLink="/emergencias" routerLinkActive="active">Mis Emergencias</a>
+        <a routerLink="/vehiculos" routerLinkActive="active">Mis Vehículos</a>
+      }
+
+      <!-- TALLER -->
+      @if (auth.rol() === 'taller') {
+        <a routerLink="/taller/emergencias" routerLinkActive="active">Emergencias</a>
+        <a routerLink="/taller/tecnicos" routerLinkActive="active">Técnicos</a>
+        <a routerLink="/taller/perfil" routerLinkActive="active">Mi Taller</a>
+      }
+
+      <!-- TÉCNICO -->
+      @if (auth.rol() === 'tecnico') {
+        <a routerLink="/tecnico/emergencias" routerLinkActive="active">Mis Asignaciones</a>
+      }
+
+      <!-- ADMINISTRADOR -->
+      @if (auth.rol() === 'administrador') {
+        <a routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
+        <a routerLink="/admin/talleres" routerLinkActive="active">Talleres</a>
+        <a routerLink="/emergencias" routerLinkActive="active">Emergencias</a>
+      }
     </div>
 
-    <button class="btn-logout" (click)="auth.logout()">Cerrar sesión</button>
+    <div class="navbar-user">
+      <span class="user-role badge-role" [class]="'role-' + auth.rol()">{{ auth.rol() }}</span>
+      <button class="btn-logout" (click)="auth.logout()">Cerrar sesión</button>
+    </div>
   </div>
 </nav>
+

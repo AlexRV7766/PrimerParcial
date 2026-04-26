@@ -106,3 +106,10 @@ def cancelar_emergencia(db: Session, emergencia, usuario_id: int):
     )
 
     return emergencia
+
+def obtener_emergencias(db: Session, usuario_id: int):
+    return db.query(Emergencia).filter(Emergencia.usuario_id == usuario_id).order_by(Emergencia.creado_en.desc()).all()
+
+def obtener_emergencia(db: Session, emergencia_id: int, usuario_id: int):
+    return db.query(Emergencia).filter(Emergencia.id == emergencia_id, Emergencia.usuario_id == usuario_id).first()
+

@@ -1,0 +1,47 @@
+<app-navbar />
+
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">
+      <span class="material-icons-outlined">handyman</span>
+      Mis Asignaciones
+    </h1>
+    <p class="page-subtitle">Lista de emergencias que te han sido asignadas</p>
+  </div>
+
+  @if (error) { <div class="alert alert-error">{{ error }}</div> }
+
+  @if (loading) {
+    <div class="loading">Cargando asignaciones...</div>
+  } @else if (emergencias.length === 0) {
+    <div class="empty">No tenés ninguna emergencia asignada en este momento.</div>
+  } @else {
+    <div class="cards-grid">
+      @for (e of emergencias; track e.id) {
+        <div class="card">
+          <div class="card-top">
+            <span class="badge" [class]="badgeClass(e.estado)">{{ e.estado }}</span>
+            <span class="card-id">#{{ e.id }}</span>
+          </div>
+          <p class="card-desc">{{ e.descripcion }}</p>
+
+            <div class="card-map">
+              <div class="map-placeholder">
+                <span class="material-icons-outlined">map</span>
+                <span>Ubicación de la emergencia</span>
+                <small>{{ e.latitud | number:'1.4-4' }}, {{ e.longitud | number:'1.4-4' }}</small>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.5rem">
+                <a [routerLink]="['/emergencias', e.id]" class="btn btn-secondary">
+                  <span class="material-icons-outlined">visibility</span> Ver detalle
+                </a>
+                <a [href]="'https://www.google.com/maps/search/?api=1&query=' + e.latitud + ',' + e.longitud" target="_blank" class="btn btn-map">
+                  <span class="material-icons-outlined">navigation</span> Abrir en Maps
+                </a>
+              </div>
+            </div>
+        </div>
+      }
+    </div>
+  }
+</div>

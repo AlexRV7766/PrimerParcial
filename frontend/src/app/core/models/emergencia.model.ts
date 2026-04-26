@@ -7,6 +7,12 @@ export interface EmergenciaCreate {
   longitud: number;
 }
 
+export interface EvidenciaResponse {
+  id: number;
+  tipo: string;
+  url: string;
+}
+
 export interface EmergenciaResponse {
   id: number;
   descripcion: string;
@@ -14,4 +20,5 @@ export interface EmergenciaResponse {
   longitud: number;
   estado: EstadoEmergencia;
   vehiculo_id: number;
+  evidencias?: EvidenciaResponse[];
 }

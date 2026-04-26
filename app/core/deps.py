@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError, ExpiredSignatureError
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from typing import List
 
 from app.core.database import SessionLocal
 from app.models.usuario import Usuario
@@ -40,3 +41,15 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="Usuario no encontrado")
 
     return usuario
+
+
+def require_roles(*roles: str):
+    """Dependencia que verifica que el usuario tenga uno de los roles indicados."""
+    def _check(current_user: Usuario = Depends(get_current_user)):
+        if current_user.rol not in roles:
+            raise HTTPException(
+                status_code=403,
+                detail=f"Acceso denegado. Se requiere uno de los roles: {', '.join(roles)}"
+            )
+        return current_user
+    return _check

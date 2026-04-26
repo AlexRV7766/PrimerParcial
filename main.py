@@ -2,6 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+# Inicializa la configuración de Cloudinary
+import app.core.cloudinary_config
+
 from app.routes import (
     usuario,
     vehiculo,
@@ -13,10 +16,11 @@ from app.routes import (
     historial,
     dispositivo,
     notificacion,
-    pago
+    pago,
+    asignacion
 )
 
-app = FastAPI()
+app = FastAPI(title="Emergencias Viales API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -40,7 +44,9 @@ app.include_router(emergencia.router)
 app.include_router(evidencia.router)
 app.include_router(taller.router)
 app.include_router(tecnico.router)
+app.include_router(asignacion.router)
 app.include_router(historial.router)
 app.include_router(dispositivo.router)
 app.include_router(notificacion.router)
 app.include_router(pago.router)
+

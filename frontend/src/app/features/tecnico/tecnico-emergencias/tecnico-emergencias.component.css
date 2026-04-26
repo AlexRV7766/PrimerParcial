@@ -1,0 +1,41 @@
+.page { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+.page-header { margin-bottom: 32px; }
+.page-title {
+  font-size: 28px; font-weight: 800; color: #fff;
+  display: flex; align-items: center; gap: 10px; margin: 0 0 6px;
+}
+.page-title .material-icons-outlined { color: #ff9e3d; font-size: 30px; }
+.page-subtitle { color: #666; font-size: 14px; margin: 0; }
+
+.alert { padding: 12px 18px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; }
+.alert-error   { background: #2e0d0d; color: #f87171; border: 1px solid #5e1a1a; }
+.loading, .empty { color: #555; padding: 32px; text-align: center; font-size: 14px; }
+
+/* Cards */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.card { background: #0f0f0f; border: 1px solid #1c1c1c; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.card-id { color: #555; font-size: 12px; font-weight: 600; }
+.card-desc { color: #ccc; font-size: 14px; margin: 0 0 16px; line-height: 1.5; flex: 1; }
+
+.card-map {
+  background: #141414; border: 1px solid #222; border-radius: 10px; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center;
+}
+.map-placeholder { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #aaa; font-size: 13px; }
+.map-placeholder .material-icons-outlined { font-size: 24px; color: #666; }
+.map-placeholder small { color: #555; font-family: monospace; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer; transition: opacity .15s; width: 100%; text-decoration: none;
+}
+.btn:hover { opacity: .85; }
+.btn-map { background: #1a3a5c; color: #60b4ff; }
+
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.badge-red    { background: #2e0d0d; color: #f87171; }
+.badge-yellow { background: #2e2600; color: #fbbf24; }
+.badge-green  { background: #0d2e1a; color: #4cd97a; }
+.badge-gray   { background: #1a1a1a; color: #666; }

@@ -1,0 +1,81 @@
+<app-navbar />
+
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">
+      <span class="material-icons-outlined">engineering</span>
+      Gestión de Técnicos
+    </h1>
+    <p class="page-subtitle">Administrá los técnicos de tu taller</p>
+  </div>
+
+  @if (mensaje) { <div class="alert alert-success">{{ mensaje }}</div> }
+  @if (error)   { <div class="alert alert-error">{{ error }}</div> }
+
+  <!-- Formulario agregar/editar -->
+  <div class="form-card">
+    <h2 class="form-title">{{ tecnicoEnEdicion ? 'Editar técnico' : 'Agregar técnico' }}</h2>
+    <form [formGroup]="form" (ngSubmit)="guardar()" class="form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tecnico-nombre">Nombre</label>
+          <input id="tecnico-nombre" type="text" formControlName="nombre" placeholder="Nombre completo" />
+        </div>
+        <div class="form-group">
+          <label for="tecnico-telefono">Teléfono</label>
+          <input id="tecnico-telefono" type="text" formControlName="telefono" placeholder="+591 7XXXXXXX" />
+        </div>
+        <div class="form-group" *ngIf="!tecnicoEnEdicion">
+          <label for="tecnico-usuario">ID Usuario (opcional)</label>
+          <input id="tecnico-usuario" type="number" formControlName="usuario_id" placeholder="Para login como técnico" />
+        </div>
+      </div>
+      <div style="display:flex; gap: 1rem; margin-top: 1rem;">
+        <button type="submit" class="btn btn-green" [disabled]="form.invalid">
+          <span class="material-icons-outlined">{{ tecnicoEnEdicion ? 'save' : 'person_add' }}</span>
+          {{ tecnicoEnEdicion ? 'Guardar cambios' : 'Agregar técnico' }}
+        </button>
+        @if (tecnicoEnEdicion) {
+          <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        }
+      </div>
+    </form>
+  </div>
+
+  <!-- Lista -->
+  @if (loading) {
+    <div class="loading">Cargando técnicos...</div>
+  } @else if (tecnicos.length === 0) {
+    <div class="empty">Tu taller no tiene técnicos registrados aún</div>
+  } @else {
+    <div class="tecnico-list">
+      @for (t of tecnicos; track t.id) {
+        <div class="tecnico-card" [class.editing]="tecnicoEnEdicion?.id === t.id">
+          <div class="tecnico-avatar">
+            <span class="material-icons-outlined">person</span>
+          </div>
+          <div class="tecnico-info">
+            <span class="tecnico-nombre">{{ t.nombre }}</span>
+            <span class="tecnico-tel">{{ t.telefono }}</span>
+            @if (t.usuario_id) {
+              <span class="tecnico-vinculado">Vinculado a cuenta #{{ t.usuario_id }}</span>
+            }
+          </div>
+          <span class="badge" [class]="t.disponible ? 'badge-green' : 'badge-gray'">
+            {{ t.disponible ? 'Disponible' : 'No disponible' }}
+          </span>
+          <div style="display: flex; gap: 0.5rem">
+            <button class="btn btn-secondary" (click)="editar(t)">
+              <span class="material-icons-outlined">edit</span>
+            </button>
+            <button class="btn btn-red" (click)="eliminar(t.id)">
+              <span class="material-icons-outlined">delete</span>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -22,6 +22,7 @@ export class EmergenciasListaComponent implements OnInit {
 
   cargar() {
     this.loading = true;
+    console.log("Cargando lista de emergencias - force recompile");
     this.service.listar().subscribe({
       next: (data) => { this.emergencias = data; this.loading = false; },
       error: () => { this.loading = false; },
